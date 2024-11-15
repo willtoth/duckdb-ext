@@ -1,0 +1,23 @@
+# name: test/sql/wpilog.test
+# description: test wpilog extension
+# group: [wpilog]
+
+# Before we load the extension, this will fail
+statement error
+SELECT wpilog('Sam');
+----
+Catalog Error: Scalar Function with name wpilog does not exist!
+
+# Require statement will ensure this test is run with this extension loaded
+require wpilog
+
+# Confirm the extension works
+query I
+SELECT wpilog('Sam');
+----
+Wpilog Sam 🐥
+
+query I
+SELECT wpilog_openssl_version('Michael') ILIKE 'Wpilog Michael, my linked OpenSSL version is OpenSSL%';
+----
+true
